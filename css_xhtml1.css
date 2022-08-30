@@ -1,0 +1,110 @@
+body { 
+    background-color: bisque;
+    min-width: 1000px;
+}
+
+#top {
+    background-color: coral;
+	border-style: solid;
+	border-color: rgb(187, 78, 96);
+    height: 20%;
+}
+
+#top #titolo {
+    margin-left: 9%;
+    text-align: center;
+    font-size: 60px;
+}
+
+#content {
+	padding-left: 300px;  /*padding sx del contenitore (è uguale alla larghezza della colonna sx)*/
+	padding-right: 240px; /*padding dx del contenitore (è uguale alla larghezza della colonna dx + il padding della colonna centrale)*/
+	overflow: hidden;     
+}
+
+#content .colonna {
+    float: left;       /*float a sinistra per tenere le colonne allineate orizzontalmente (una affianco all'altra).
+                        In questo caso, essendo che la colonna centrale occupa il 100% della larghezza disponibile del div contenitore,
+                        la colonna destra e sinistra scalano (sempre una affianco all'altra) al di sotto della colonna centrale.			   
+                        Di default, i div dovrebbero seguire il flusso (quindi le colonne dovrebbero susseguirsi verticalmente).
+				       */
+    position: relative; /*uso un positioning relativo per spostare la colonna sx (navbar) con un offset
+                         pari alla larghezza della colonna (vedi proprietà right)*/
+    padding-bottom: 10080px; /*altezza + padding-bottom di 80px*/
+    margin-bottom: -10000px;  /*altezza*/
+    height: 500px;
+}
+
+#center {
+    width: 100%;        /*la larghezza del centro è in percentuale perchè vogliamo un centro FLUIDO
+                         La percentuale si riferisce alla larghezza del div contenitore (escludendo il padding).				   */
+    padding: 10px 20px; /* 10 px top-bottom | 20px right-left */
+    background-color: #859bd8;
+}
+
+#navbar {
+    width: 280px;  /* larghezza colonna sx = larghezza "full" della colonna sx - (padding sx della colonna sx 
+	                  + padding dx della colonna sx)  */
+    background-color: pink;
+    padding: 10px 10px;  /* 10px top-bottom | 10px right-left */
+    margin-left: -100%; /*La colonna sinistra viene trascinata ancora più a sinistra lungo tutta la colonna centrale con un
+                        margine al 100% negativo, così da sovrapporsi alla colonna centrale.
+                        La percentuale si riferisce alla larghezza del contenitore.						*/
+    right: 340px;     /*allontana di 340px la colonna sinistra (a partire dal bordo destro) attraverso un positioning relativo.
+                      Il 40px è dato dal padding della colonna centrale*/
+}
+
+#right {
+    width: 180px;  /* larghezza colonna dx = larghezza "full" della colonna dx - padding (dx e sx) della colonna dx (20px)*/
+    background-color: #DDA0DD;
+	background-repeat: repeat-y;
+    background-image: url("immagini/1547042241_cristalli.webp");
+	background-size: 200px; 
+    padding: 10px 10px;
+    margin-right: -240px; /* Per portare la colonna destra nel padding destro del contenitore ho posto un margine destro negativo pari alla 
+	                         larghezza della colonna destra + il padding della colonna centrale (dx e sx)*/
+}
+
+ul.nav { 
+    padding: 1ex 1em;
+    margin-left: 0;
+    font-family: Georgia, sans-serif;
+    font-weight: bold;
+}
+
+ul {
+    background: #3399ff;
+    padding: 20px;
+  }
+
+ul.nav li { 
+    background: #cce5ff;
+    color: darkblue;
+    margin: 5px;
+}
+
+
+ul.nav a:link {
+    color: black;
+}
+
+
+img.dx {           
+    float: right;
+	padding-right: 40px;
+    padding-top: 20px;
+}
+
+ #content .log{
+	background-color: #859bd8;
+    text-align: center;
+	padding: 5em;
+    margin-top: 10%;
+	margin-right: 14%;
+    padding-left: 2%;
+	margin-left: 14%;
+	border-left-style: solid;
+	border-right-style: solid;
+    border-top-style: solid;
+    border-bottom-style: solid;
+}
