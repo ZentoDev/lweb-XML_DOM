@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<travel_reservations xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:nonamespaceschemalocation="booking.xsd">
+    <booking booking_id="0" visitor="admin"><place>Kennedy Space Center</place><date_visit>2022-08-29</date_visit></booking>
+    <booking booking_id="1" visitor="John"><place>Mars</place><date_visit>2042-08-29</date_visit></booking>
+    <booking booking_id="2" visitor="nino"><place>NASA Engineering and Safety Center</place><date_visit>2023-06-09</date_visit></booking>
+    <booking booking_id="16620584922022-09-04Kennedy Space Centeradmin" visitor="admin"><place>Kennedy Space Center</place><date_visit>2022-09-04</date_visit></booking>
+    <booking booking_id="16620584972022-09-14NASA Engineering and Safety Centeradmin" visitor="admin"><place>NASA Engineering and Safety Center</place><date_visit>2022-09-14</date_visit></booking>
+    <booking booking_id="16620585032022-10-01NASA Engineering and Safety Centeradmin" visitor="admin"><place>NASA Engineering and Safety Center</place><date_visit>2022-10-01</date_visit></booking>
+</travel_reservations>

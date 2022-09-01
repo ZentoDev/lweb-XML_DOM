@@ -4,6 +4,7 @@ error_reporting(E_ALL &~E_NOTICE);
 
 session_start();
 $mex="";
+$id="";
 
 //verifica autenticazione utente
 if (!isset($_SESSION['accesso_permesso'])) header('Location: login.php');
@@ -13,20 +14,31 @@ if(isset($_POST['prenota'])){
     if(isset($_POST['luogo']) && isset($_POST['date'])){
         
         if($_POST['date'] >= date("Y-m-d")){     //controllo validità della data
-            //accesso alla base di dati
-            require_once("connection.php");
 
-            $query_sql="INSERT INTO $booking_table_name
-                        (place, date_visit, visitor)
-                        VALUES
-                        (\"{$_POST['luogo']}\", \"{$_POST['date']}\", \"{$_SESSION['username']}\")
-                        ";
-            if ($res = mysqli_query($connection_mysqli, $query_sql))     //inserimento dati
-                $mex='La prenotazione &egrave stata effettuata';
-            else {
-                $mex='La prenotazione non &egrave stata effettuata, problemi con il database';
-                exit();
-            }
+            require_once("lib_xmlaccess.php");
+            $doc = openXML("booking.xml");
+		    $root = $doc->documentElement;
+		
+		    /*viene creato un elemento "booking" e viene aggiunto come figlio all'elemento "travel_reservations".
+		    Cio' verra' fatto anche con gli altri elementi e sottoelementi di "booking".*/
+		
+		    $newBooking = $doc->createElement("booking");
+		    $root->appendChild($newBooking);
+		
+		    $newPlace = $doc->createElement("place", "{$_POST['luogo']}");
+		    $newBooking->appendChild($newPlace);
+		
+		    $newDate = $doc->createElement("date_visit", "{$_POST['date']}");
+            $newBooking->appendChild($newDate);
+		
+            $id =  time() . $_POST['date'] . $_POST['luogo'] . $_SESSION['username'];  
+		    $newBooking->setAttribute("booking_id", "$id");
+            $newBooking->setAttribute("visitor","{$_SESSION['username']}");
+
+		    //permette di salvare il documento in un file xml
+		    $docXML = '<?xml version="1.0" encoding="UTF-8"?>' . $doc->saveXML($doc->documentElement);
+            file_put_contents("booking.xml", $docXML);
+            
         }
         else $mex='Deve essere inserita una data nel futuro, 
                    non abbiamo ancora scoperto i viaggi nel tempo';
@@ -76,7 +88,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
             <input type="radio" name="luogo" value="Mars"/> Mars<br />
 
             <p><strong>Inserisci la data della visita</strong></p>
-            <input type="date" name="date" value="$_POST['date']"/>
+            <input type="date" name="date" />
             <br /><br />
             <input type="submit" name="prenota" value="prenota"/>
         </form>

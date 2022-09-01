@@ -1,9 +1,8 @@
 <?php
 ini_set('display_errors', 1);
 error_reporting(E_ALL &~E_NOTICE);
-//accedo al database
 
-require_once("connection.php");
+require_once("lib_xmlaccess.php");
 
 $datimancanti=0;   //$datimancanti=1 Non sono stati inseriti tutti i dati necessari all'autentificazione dell'utente
 $accessonegato=0;  //$accessonegato=1 I dati inseriti non sono validi per l'autentificazione dell'utente
@@ -12,34 +11,33 @@ $accessonegato=0;  //$accessonegato=1 I dati inseriti non sono validi per l'aute
 if(isset($_POST['invio'])){
 	//nel caso siano stati inseriti sia la password che lo username
     if ($_POST['username'] && $_POST['password']) {
-		//verifico, attraverso una query, se lo username e la password corrispondono a quelle di un utente nella tabella users
-		$select_query = "SELECT *
-                         FROM $user_table_name
-                         WHERE userName = \"{$_POST['username']}\" AND password =\"{$_POST['password']}\" ";
-        //se la query e' stata eseguita correttamente
-		if ($res = mysqli_query($connection_mysqli, $select_query)) {
+		
+		$doc = openXML("users.xml");
+		$root = $doc->documentElement;
+		
+		$users_list = $root->childNodes;
+
+		for ($i=0; $i<$users_list->length; $i++){
+			$user = $users_list->item($i);
 			
-			$row = mysqli_fetch_array($res);
-            //se $row e' diverso da null, ovvero la query precedentemente eseguita mi ha dato un risultato non nullo, allora
-			//lo username e la password corrispondono effettivamente ad un utente della tabella users.
-			if ($row) {  
-			    //inizializzo la sessione e memorizzo una serie di informazioni nell'array $_SESSION[]
+			$username_value = $user->getAttribute('username');
+			
+			$password_value = $user->getAttribute('password');
+			
+
+			if(($_POST['username']==$username_value) && ($_POST['password']==$password_value)){
+				$user_id = $user->getAttribute('id_user');
+				$permesso = $user->getAttribute('permesso');
 				session_start();
-				$_SESSION['id_utente']=$row['user_id'];
-				$_SESSION['username']=$row['username'];
-				$_SESSION['data_login']=time();
-				$_SESSION['accesso_permesso']=100;
+				$_SESSION['username'] = $username_value;
+				
 				//indirizzo il client verso la pagina iniziale del sito
                 header('Location: prenotazione.php');    
                 exit();
-            }
-			else {$accessonegato=1;}
+			}else {$accessonegato=1;}
 		}
-		
-	}
-	else {$datimancanti=1;}
+	}else {$datimancanti=1;}
 }
-mysqli_close($connection_mysqli);
 
 printf('<?xml version="1.0" encoding="UTF-8"?>');
 ?>

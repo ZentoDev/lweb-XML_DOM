@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<users xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:noNamespaceSchemaLocation="users.xsd">
+
+<user user_id="1" username="admin" password="admin" />
+<user user_id="2" username="John" password="1234" />
+<user user_id="3" username="nino" password="passwordsicura" />
+
+</users>
