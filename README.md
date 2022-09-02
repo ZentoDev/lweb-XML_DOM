@@ -7,7 +7,7 @@ Estensione del precedente esercizio php-mysql.
 È composto da una sezione per la gestione delle prenotazioni di visite all'interno di posti dell'organizzazione. Dal sito ogni utente può aggiungere, eliminare o visualizzare le proprie prenotazioni. 
 I dati degli utenti e delle prenotazioni sono contenuti in due file XML, per entrambi è presente un file xsd che definisce la struttura e consente la verifica della validità.
  
-Le seguenti pagine sono delle applicazioni XML. 
+Le seguenti pagine sono delle applicazioni XML:
 - prenotazione.php consente l'aggiunta di nuove prenotazioni.
 - disdici.php consente l'eliminazione delle prenotazioni fatte dall'utente fino a quel momento.
 - visualizzavisite.php consente di visualizzare le prenotazioni attive.
