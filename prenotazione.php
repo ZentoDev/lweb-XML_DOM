@@ -36,8 +36,7 @@ if(isset($_POST['prenota'])){
             $newBooking->setAttribute("visitor","{$_SESSION['username']}");
 
 		    //permette di salvare il documento in un file xml
-		    $docXML = '<?xml version="1.0" encoding="UTF-8"?>' . $doc->saveXML($doc->documentElement);
-            file_put_contents("booking.xml", $docXML);
+            printFileXML("booking.xml", $doc);
             
         }
         else $mex='Deve essere inserita una data nel futuro, 

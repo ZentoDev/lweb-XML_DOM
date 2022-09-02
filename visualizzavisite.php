@@ -58,26 +58,31 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                 	<th>Luogo</th>
                     <th>Data</th>
                   </tr>";
-                require_once("connection.php");
 
-                $select_query="SELECT place, date_visit 
-                               FROM $booking_table_name
-                               WHERE $booking_table_name.visitor='{$_SESSION['username']}'
-                                   ";
-                if (!$res = mysqli_query($connection_mysqli, $select_query))
-                    echo "Problemi nell'esecuzione della query";
-                else{
-                    $row = mysqli_fetch_array($res);
-                    while($row != null){
+                require_once("lib_xmlaccess.php");
+                $doc = openXML("booking.xml");
+
+                $booking_list = $doc->getElementsByTagName( "booking" ); 
+                for ($i=0; $i < $booking_list->length; $i++) {
+                    $booking = $booking_list->item($i);
+
+                    //visualizza solo le prenotazione effettuate dall'utente
+                    if( $booking->getAttribute('visitor') == $_SESSION['username'] ){   
+                        $place = $booking->firstChild;
+			            $place_value = $place->textContent;
+
+			            $date = $booking->lastChild;
+			            $date_value = $date->textContent;                    
+
                         echo "<tr>
-                              <td>$row[place]</td>
-			                  <td>$row[date_visit]</td>
-			                  </tr>";
-                        $row = mysqli_fetch_array($res);
+                              <td>$place_value</td>
+                              <td>$date_value</td>
+                              </tr>";
                     }
+			
+			        
                 }
             echo "</table>\n";
-            mysqli_close($connection_mysqli);
         ?>
 
     </div>

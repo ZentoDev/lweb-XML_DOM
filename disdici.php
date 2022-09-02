@@ -3,7 +3,10 @@ ini_set('display_errors', 1);
 error_reporting(E_ALL &~E_NOTICE);
 
 session_start();
-require_once("connection.php");
+require_once("lib_xmlaccess.php");
+$doc = openXML("booking.xml");
+$root = $doc->documentElement;	
+$booking_list = $root->childNodes;
 $mex="";
 
 //verifica autenticazione utente
@@ -11,16 +14,18 @@ if (!isset($_SESSION['accesso_permesso'])) header('Location: login.php');
 
 if(isset($_POST['disdici'])){
 
-    $sql_delete="DELETE FROM $booking_table_name
-                WHERE booking_id='{$_POST['id']}'
-                ";
+    for ($i=0; $i < $booking_list->length; $i++) {
+        $booking = $booking_list->item($i);
 
-    if($res = mysqli_query($connection_mysqli, $sql_delete))
-        $mex='Cancellazione effettuata';
-    else{
-        $mex='La cancellazione non &egrave stata effettuata';
-        exit();
+        if( $booking->getAttribute('booking_id') == $_POST['id'] ){   
+
+            $booking_list->item($i)->remove();
+            printFileXML("booking.xml", $doc);
+            $mex='Cancellazione effettuata';
+
+        }
     }
+    if(!$mex) $mex='La cancellazione non &egrave stata effettuata';
 }
 
 echo '<?xml version="1.0" encoding="UTF-8"?>';
@@ -56,23 +61,22 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
         <p>Seleziona una visita delle seguenti per disdirla </p>
         <hr />
         <form action="<?php $_SERVER['PHP_SELF'];?>" method="post">
-            <?php 
-                $select_query="SELECT place, date_visit, booking_id
-                               FROM $booking_table_name
-                               WHERE $booking_table_name.visitor='{$_SESSION['username']}'
-                               ";
-                if (!$res = mysqli_query($connection_mysqli, $select_query))
-                    echo "Problemi nell'esecuzione della query";
-                else{
-                    //$prenotazioni = array();        
-                    $row = mysqli_fetch_array($res);  
-                    for($c = 0; $row != null; $c++){    
-                        //$prenotazioni[$c] = $row;   //$prenotazioni è un vettore in cui ad ogni indice 
-                                                    //è associato una coppia (place, date_visit)
+            <?php  
+                for ($i=0; $i < $booking_list->length; $i++) {
+                    $booking = $booking_list->item($i);
 
-                        echo '<input type="radio" name="id" value="'.$row[2].'"/> '.$row[1].' - '.$row[0].'<br />';
+                    //visualizza solo le prenotazione effettuate dall'utente
+                    if( $booking->getAttribute('visitor') == $_SESSION['username'] ){   
 
-                        $row = mysqli_fetch_array($res);
+                        $id_value = $booking->getAttribute('booking_id');
+
+                        $place = $booking->firstChild;
+			            $place_value = $place->textContent;
+
+			            $date = $booking->lastChild;
+			            $date_value = $date->textContent;                    
+ 
+                        echo '<input type="radio" name="id" value="'.$id_value.'"/> '.$date_value.' - '.$place_value.'<br />';
                     }
                 }
             ?>

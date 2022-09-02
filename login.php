@@ -26,10 +26,10 @@ if(isset($_POST['invio'])){
 			
 
 			if(($_POST['username']==$username_value) && ($_POST['password']==$password_value)){
-				$user_id = $user->getAttribute('id_user');
 				$permesso = $user->getAttribute('permesso');
 				session_start();
 				$_SESSION['username'] = $username_value;
+				$_SESSION['accesso_permesso'] = $permesso;
 				
 				//indirizzo il client verso la pagina iniziale del sito
                 header('Location: prenotazione.php');    
