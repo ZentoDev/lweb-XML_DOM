@@ -8,8 +8,6 @@ Estensione del precedente esercizio php-mysql.
 I dati degli utenti e delle prenotazioni sono contenuti in due file XML, per entrambi è presente un file xsd che definisce la struttura e consente la verifica della validità.
  
 Le seguenti pagine sono delle applicazioni XML. 
-
-Applicazioni XML:
 - prenotazione.php consente l'aggiunta di nuove prenotazioni.
 - disdici.php consente l'eliminazione delle prenotazioni fatte dall'utente fino a quel momento.
 - visualizzavisite.php consente di visualizzare le prenotazioni attive.
