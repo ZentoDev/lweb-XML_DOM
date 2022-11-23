@@ -11,16 +11,13 @@ function openXML ($fname) {
         $stringXML .= trim($nodo);
     }
 
+   if( $stringXML == NULL)    return NULL;  //Nel caso in cui il file xml sia vuoto o non esista si ritorna NULL
+
     $doc = new DOMDocument();
 
     //A differenza di loadXML(), il seguente metodo consente il parsing di stringhe xml che contengono prefissi per il namespace (es xlmns:xsi)
-    if( !$doc->loadHTML($stringXML,
-                   LIBXML_HTML_NOIMPLIED | 
-                   LIBXML_HTML_NODEFDTD |  
-                   LIBXML_NOERROR |        
-                   LIBXML_NOWARNING       
-    ) );
-    
+    $doc->loadHTML($stringXML, LIBXML_HTML_NOIMPLIED | LIBXML_HTML_NODEFDTD | LIBXML_NOERROR | LIBXML_NOWARNING );
+
     return $doc;
 }
 
