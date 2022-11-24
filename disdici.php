@@ -4,7 +4,7 @@ error_reporting(E_ALL &~E_NOTICE);
 
 session_start();
 require_once("lib_xmlaccess.php");
-$doc = openXML("booking.xml");
+$doc = openXML("xml/booking.xml");
 $root = $doc->documentElement;	
 $booking_list = $root->childNodes;
 $mex="";
@@ -20,7 +20,7 @@ if(isset($_POST['disdici'])){
         if( $booking->getAttribute('booking_id') == $_POST['id'] ){   
 
             $booking_list->item($i)->remove();
-            printFileXML("booking.xml", $doc);
+            printFileXML("xml/booking.xml", $doc);
             $mex='Cancellazione effettuata';
 
         }

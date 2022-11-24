@@ -60,7 +60,7 @@ PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
                   </tr>";
 
                 require_once("lib_xmlaccess.php");
-                $doc = openXML("booking.xml");
+                $doc = openXML("xml/booking.xml");
 
                 $booking_list = $doc->getElementsByTagName( "booking" ); 
                 for ($i=0; $i < $booking_list->length; $i++) {

@@ -16,7 +16,7 @@ if(isset($_POST['prenota'])){
         if($_POST['date'] >= date("Y-m-d")){     //controllo validità della data
 
             require_once("lib_xmlaccess.php");
-            $doc = openXML("booking.xml");
+            $doc = openXML("xml/booking.xml");
 		    $root = $doc->documentElement;
 		
 		    /*viene creato un elemento "booking" e viene aggiunto come figlio all'elemento "travel_reservations".
@@ -36,7 +36,7 @@ if(isset($_POST['prenota'])){
             $newBooking->setAttribute("visitor","{$_SESSION['username']}");
 
 		    //permette di salvare il documento in un file xml
-            printFileXML("booking.xml", $doc);
+            printFileXML("xml/booking.xml", $doc);
             
         }
         else $mex='Deve essere inserita una data nel futuro, 
